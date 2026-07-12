@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meal plan builder - Food Framework</title>
+<style>
+  :root {
+    --surface-2: #ffffff;
+    --surface-1: #f4f3ef;
+    --border: #dedcd4;
+    --text-primary: #1a1a18;
+    --text-secondary: #5f5e5a;
+    --text-muted: #888780;
+    --bg-success: #eaf3de;
+    --text-success: #27500a;
+    --fill-success: #639922;
+    --bg-warning: #faeeda;
+    --text-warning: #854f0b;
+    --fill-warning: #ba7517;
+    --bg-danger: #fcebeb;
+    --text-danger: #791f1f;
+    --fill-danger: #e24b4a;
+    --radius: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-2: #232320;
+      --surface-1: #2c2c2a;
+      --border: #444441;
+      --text-primary: #f1efe8;
+      --text-secondary: #b4b2a9;
+      --text-muted: #888780;
+      --bg-success: #173404;
+      --text-success: #c0dd97;
+      --bg-warning: #412402;
+      --text-warning: #fac775;
+      --bg-danger: #501313;
+      --text-danger: #f7c1c1;
+    }
+  }
+  body {
+    background: var(--surface-1);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    max-width: 680px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    line-height: 1.6;
+  }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 1.5rem; }
+  label { display: block; font-size: 14px; color: var(--text-secondary); margin-bottom: 6px; }
+  textarea {
+    width: 100%; box-sizing: border-box; font-size: 14px; padding: 8px 10px;
+    border: 0.5px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-2); color: var(--text-primary); resize: vertical;
+    margin-bottom: 8px; font-family: inherit;
+  }
+  button {
+    font-size: 14px; padding: 8px 14px; border: 0.5px solid var(--border);
+    border-radius: var(--radius); background: var(--surface-2); color: var(--text-primary);
+    cursor: pointer;
+  }
+  button:hover { background: var(--surface-1); }
+  button:active { transform: scale(0.98); }
+  .row { display: flex; gap: 8px; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .card { background: var(--surface-2); border-radius: 12px; border: 0.5px solid var(--border); padding: 1rem 1.25rem; }
+  .card h3 { margin: 0 0 12px; font-size: 16px; font-weight: 500; }
+  .label-sm { font-size: 13px; color: var(--text-secondary); margin: 0 0 6px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 3px 10px; border-radius: var(--radius); margin: 0 6px 6px 0; }
+  ol { margin: 0 0 16px; padding-left: 20px; font-size: 14px; }
+  ol li { margin-bottom: 6px; }
+  .divider { border-top: 0.5px solid var(--border); padding-top: 12px; }
+  .bar { display: flex; height: 8px; border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<h1>Meal plan builder - Food Framework</h1>
+
+<label for="ingredients-input">Ingredients you have (comma separated)</label>
+<textarea id="ingredients-input" rows="2" placeholder="chicken breast, broccoli, brown rice, olive oil, garlic"></textarea>
+
+<div class="row">
+  <button id="generate-btn">Generate recipe</button>
+  <button id="example-btn">Try an example</button>
+</div>
+
+<div id="output"></div>
+
+<script>
+(function(){
+
+var DB = {
+  "chicken breast": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "chicken thigh": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "turkey breast": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "turkey": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "cod": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "tilapia": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "white fish": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "shrimp": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "prawns": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "egg whites": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "lean beef": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "sirloin": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "pork tenderloin": {macro:"protein", color:"green", cat:"protein", method:"roast"},
+  "tofu": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "tempeh": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "greek yogurt": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "tuna": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+
+  "salmon": {macro:"fat+protein", color:"yellow", cat:"protein", method:"bake"},
+  "egg": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "eggs": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "bacon": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "sausage": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "ribeye": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "ground beef": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "cheese": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "cheddar": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "mozzarella": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "milk": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "almonds": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "walnuts": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "cashews": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "peanuts": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "peanut butter": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "chia seeds": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "flax seeds": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "sunflower seeds": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+
+  "black beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "kidney beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "chickpeas": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "lentils": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "edamame": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+
+  "rice": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "brown rice": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "white rice": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "quinoa": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "oats": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "potato": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "potatoes": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "sweet potato": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "whole wheat bread": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "whole wheat pasta": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "pasta": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "banana": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "apple": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "berries": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "blueberries": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "strawberries": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "corn": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+
+  "broccoli": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "spinach": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "kale": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "zucchini": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "cauliflower": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "brussels sprouts": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "lettuce": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "celery": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "cucumber": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "bell pepper": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "tomato": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "cabbage": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "asparagus": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "green beans": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "mushroom": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "mushrooms": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "onion": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "garlic": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "carrot": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "carrots": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+
+  "olive oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "coconut oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "avocado": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "butter": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "grass-fed butter": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+
+  "vegetable oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "canola oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "soybean oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "margarine": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "white bread": {macro:"carb", color:"red", cat:"carb", method:"as-is"},
+  "white pasta": {macro:"carb", color:"red", cat:"carb", method:"boil"},
+  "sugar": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "candy": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "soda": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "chips": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "cookies": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "cake": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "ice cream": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "pizza": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "gummy bears": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "jelly beans": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "cereal": {macro:"carb", color:"red", cat:"carb", method:"raw"},
+  "juice": {macro:"carb", color:"red", cat:"combo", method:"raw"}
+};
+
+var UNIT_RE = /^[\d\/\.\s]*\b(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|kg|grams?|g|cloves?|slices?|cans?|pieces?|whole|small|medium|large|handful|bunch|of)\b\.?\s*/i;
+var LEAD_NUM_RE = /^[\d\/\.\s]+/;
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+function cap(s){ return s.replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }
+
+function cleanName(raw){
+  var s = raw.toLowerCase().trim();
+  s = s.replace(LEAD_NUM_RE, "");
+  s = s.replace(UNIT_RE, "");
+  s = s.replace(UNIT_RE, "");
+  s = s.replace(/\s+/g, " ").trim();
+  return s;
+}
+
+function matchIngredient(raw){
+  var name = cleanName(raw);
+  if (!name) return null;
+  if (DB[name]) return Object.assign({name:name, raw:raw.trim()}, DB[name]);
+  var bestKey = null;
+  for (var key in DB){
+    if (name === key) { bestKey = key; break; }
+    if (name.indexOf(key) !== -1 || key.indexOf(name) !== -1){
+      if (!bestKey || key.length > bestKey.length) bestKey = key;
+    }
+  }
+  if (bestKey) return Object.assign({name:bestKey, raw:raw.trim()}, DB[bestKey]);
+  return null;
+}
+
+var COLOR_VARS = {
+  green: {bg:"var(--bg-success)", text:"var(--text-success)", fill:"var(--fill-success)"},
+  yellow: {bg:"var(--bg-warning)", text:"var(--text-warning)", fill:"var(--fill-warning)"},
+  red: {bg:"var(--bg-danger)", text:"var(--text-danger)", fill:"var(--fill-danger)"}
+};
+
+var VERB_TITLE = {sear:"Pan-seared", roast:"Roasted", bake:"Baked", saute:"Sauteed", boil:"Simmered", raw:"Fresh", "as-is":"Toasted"};
+
+function badge(item){
+  var c = COLOR_VARS[item.color];
+  return '<span class="badge" style="background:'+c.bg+'; color:'+c.text+';">'+esc(cap(item.name))+'</span>';
+}
+
+function buildSteps(groups){
+  var steps = [];
+  var proteins = groups.protein, vegs = groups.veg, carbs = groups.carb, fats = groups.fat.concat(groups.dairy), combos = groups.combo;
+  var primaryFat = fats[0];
+  var fatName = primaryFat ? primaryFat.name : "olive oil";
+
+  var prepBits = [];
+  if (proteins.length) prepBits.push("pat the " + proteins.map(function(p){return p.name;}).join(" and ") + " dry and season with salt and pepper");
+  if (vegs.length) prepBits.push("wash and chop the " + vegs.map(function(v){return v.name;}).join(", "));
+  if (prepBits.length) steps.push("Prep: " + cap(prepBits.join("; ")) + ".");
+
+  carbs.forEach(function(c){
+    if (c.method === "boil") steps.push("Cook the " + c.name + " in water or broth per package directions, about 15-20 minutes, until tender.");
+    else if (c.method === "roast") steps.push("Toss the " + c.name + " with a little " + fatName + ", salt, and pepper. Roast at 425F (220C) for 25-30 minutes, flipping halfway.");
+    else if (c.method === "as-is") steps.push("Toast or warm the " + c.name + " just before serving.");
+    else steps.push("Prepare the " + c.name + " and set aside.");
+  });
+
+  proteins.forEach(function(p){
+    if (p.method === "sear") steps.push("Heat " + fatName + " in a skillet over medium-high heat. Sear the " + p.name + " 4-6 minutes per side until browned and cooked through.");
+    else if (p.method === "saute") steps.push("Heat " + fatName + " in a pan over medium heat. Saute the " + p.name + " 3-5 minutes, stirring, until cooked through.");
+    else if (p.method === "bake" || p.method === "roast") steps.push("Rub the " + p.name + " with " + fatName + ", season, and roast at 400F (200C) for 18-25 minutes until cooked through.");
+    else steps.push("Add the " + p.name + " as-is, no cooking needed.");
+  });
+
+  var roastVeg = vegs.filter(function(v){ return v.method === "roast"; });
+  var sauteVeg = vegs.filter(function(v){ return v.method === "saute"; });
+  var rawVeg = vegs.filter(function(v){ return v.method === "raw"; });
+  if (roastVeg.length) steps.push("Roast the " + roastVeg.map(function(v){return v.name;}).join(", ") + " alongside the carb, or on a separate tray, until tender and lightly charred.");
+  if (sauteVeg.length) steps.push("Saute the " + sauteVeg.map(function(v){return v.name;}).join(", ") + " in the same pan as the protein for 3-4 minutes until just softened.");
+  if (rawVeg.length) steps.push("Add the " + rawVeg.map(function(v){return v.name;}).join(", ") + " raw, either mixed in or served on the side.");
+
+  var extraFats = fats.slice(1);
+  if (extraFats.length) steps.push("Finish with " + extraFats.map(function(f){return f.name;}).join(" and ") + " for extra richness.");
+
+  if (combos.length) steps.push("If using " + combos.map(function(c){return c.name;}).join(", ") + ", keep it a small side or garnish rather than a main component - it sits in the red zone of the framework.");
+
+  steps.push("Plate everything together, adjust seasoning, and serve.");
+  return steps;
+}
+
+function buildTitle(groups){
+  var proteins = groups.protein, vegs = groups.veg, carbs = groups.carb;
+  var parts = [];
+  if (proteins.length){
+    var p = proteins[0];
+    parts.push((VERB_TITLE[p.method] || "") + " " + cap(p.name));
+  }
+  var rest = [];
+  if (carbs.length) rest.push(cap(carbs[0].name));
+  if (vegs.length) rest.push(vegs.slice(0,2).map(function(v){return cap(v.name);}).join(" & "));
+  if (!parts.length && rest.length) return rest.join(" and ") + " bowl";
+  if (!parts.length && !rest.length) return "Custom plate";
+  return parts[0] + (rest.length ? " with " + rest.join(" and ") : "");
+}
+
+function render(matched, unmatched){
+  var out = document.getElementById("output");
+  if (!matched.length){
+    out.innerHTML = '<p style="color:var(--text-secondary); font-size:14px;">No ingredients recognized yet. Try common whole foods like chicken breast, broccoli, brown rice, or olive oil.</p>';
+    return;
+  }
+
+  var groups = {protein:[], veg:[], carb:[], fat:[], dairy:[], combo:[]};
+  matched.forEach(function(m){ groups[m.cat].push(m); });
+
+  var counts = {green:0, yellow:0, red:0};
+  matched.forEach(function(m){ counts[m.color]++; });
+  var total = matched.length;
+  var pct = {
+    green: Math.round(counts.green / total * 100),
+    yellow: Math.round(counts.yellow / total * 100),
+    red: Math.round(counts.red / total * 100)
+  };
+
+  var tip;
+  if (pct.red > 30) tip = "This meal leans into the red zone. Consider swapping a processed item for a whole-food alternative to cut the blood sugar spike.";
+  else if (pct.green >= 50) tip = "Solid foundation - this meal is built mostly around green vegetables and lean protein, per the framework.";
+  else if (pct.yellow > 60) tip = "Mostly yellow-zone foods here - nutritious, but calorie dense, so keep an eye on portion size.";
+  else tip = "Balanced mix. Adding another green vegetable would boost fiber and fullness further.";
+
+  var title = buildTitle(groups);
+  var steps = buildSteps(groups);
+
+  var html = '';
+  html += '<div class="card">';
+  html += '<h3>' + esc(title) + '</h3>';
+
+  html += '<p class="label-sm">Ingredients used</p>';
+  html += '<div style="margin-bottom:16px;">' + matched.map(badge).join('') + '</div>';
+
+  html += '<p class="label-sm">Steps</p>';
+  html += '<ol>';
+  steps.forEach(function(s){ html += '<li>' + esc(s) + '</li>'; });
+  html += '</ol>';
+
+  html += '<div class="divider">';
+  html += '<p class="label-sm">Framework check</p>';
+  html += '<div class="bar">';
+  if (pct.green) html += '<div style="flex:'+pct.green+'; background:'+COLOR_VARS.green.fill+';"></div>';
+  if (pct.yellow) html += '<div style="flex:'+pct.yellow+'; background:'+COLOR_VARS.yellow.fill+';"></div>';
+  if (pct.red) html += '<div style="flex:'+pct.red+'; background:'+COLOR_VARS.red.fill+';"></div>';
+  html += '</div>';
+  html += '<p class="label-sm" style="margin-bottom:10px;">' + pct.green + '% green, ' + pct.yellow + '% yellow, ' + pct.red + '% red</p>';
+  html += '<p style="font-size:14px; margin:0;">' + esc(tip) + '</p>';
+  html += '</div>';
+
+  if (unmatched.length){
+    html += '<p style="font-size:12px; color:var(--text-muted); margin:12px 0 0;">Not recognized, included as-is: ' + esc(unmatched.join(", ")) + '</p>';
+  }
+
+  html += '</div>';
+  out.innerHTML = html;
+}
+
+function run(){
+  var raw = document.getElementById("ingredients-input").value;
+  var pieces = raw.split(",").map(function(s){ return s.trim(); }).filter(Boolean);
+  var matched = [], unmatched = [];
+  pieces.forEach(function(p){
+    var m = matchIngredient(p);
+    if (m) matched.push(m); else unmatched.push(p);
+  });
+  render(matched, unmatched);
+}
+
+document.getElementById("generate-btn").addEventListener("click", run);
+document.getElementById("example-btn").addEventListener("click", function(){
+  document.getElementById("ingredients-input").value = "chicken breast, broccoli, brown rice, olive oil, garlic";
+  run();
+});
+
+})();
+</script>
+</body>
+</html>
