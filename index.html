@@ -246,6 +246,13 @@ var COLOR_VARS = {
 
 var VERB_TITLE = {sear:"Pan-seared", roast:"Roasted", bake:"Baked", saute:"Sauteed", boil:"Simmered", raw:"Fresh", "as-is":"Toasted"};
 
+function yellowDominance(item){
+  if (item.color !== "yellow") return null;
+  if (item.macro.indexOf("fat") !== -1) return "fat";
+  if (item.macro.indexOf("carb") !== -1) return "carb";
+  return null;
+}
+
 function badge(item){
   var c = COLOR_VARS[item.color];
   return '<span class="badge" style="background:'+c.bg+'; color:'+c.text+';">'+esc(cap(item.name))+'</span>';
@@ -332,6 +339,26 @@ function render(matched, unmatched){
   else if (pct.yellow > 60) tip = "Mostly yellow-zone foods here - nutritious, but calorie dense, so keep an eye on portion size.";
   else tip = "Balanced mix. Adding another green vegetable would boost fiber and fullness further.";
 
+  var yellowCarb = 0, yellowFat = 0;
+  matched.forEach(function(m){
+    var d = yellowDominance(m);
+    if (d === "carb") yellowCarb++;
+    else if (d === "fat") yellowFat++;
+  });
+  var yellowTotal = yellowCarb + yellowFat;
+  var yinYangMsg = null;
+  if (yellowTotal === 1){
+    yinYangMsg = "Only 1 yellow-zone food here (" + (yellowCarb ? "carb-dominant" : "fat-dominant") + "), so there's not enough to read a yin-yang balance yet.";
+  } else if (yellowTotal > 1){
+    if (yellowCarb && yellowFat){
+      yinYangMsg = yellowCarb + " of your " + yellowTotal + " yellow foods are carb-dominant and " + yellowFat + " are fat-dominant. The yin-yang principle favors leaning mostly into one side rather than splitting evenly - your call on whether to adjust.";
+    } else if (yellowCarb){
+      yinYangMsg = "All " + yellowCarb + " of your yellow foods are carb-dominant - no fat-dominant yellow foods mixed in, so this follows the yin-yang principle.";
+    } else {
+      yinYangMsg = "All " + yellowFat + " of your yellow foods are fat-dominant - no carb-dominant yellow foods mixed in, so this follows the yin-yang principle.";
+    }
+  }
+
   var title = buildTitle(groups);
   var steps = buildSteps(groups);
 
@@ -357,6 +384,13 @@ function render(matched, unmatched){
   html += '<p class="label-sm" style="margin-bottom:10px;">' + pct.green + '% green, ' + pct.yellow + '% yellow, ' + pct.red + '% red</p>';
   html += '<p style="font-size:14px; margin:0;">' + esc(tip) + '</p>';
   html += '</div>';
+
+  if (yinYangMsg){
+    html += '<div class="divider">';
+    html += '<p class="label-sm">Yin-yang check</p>';
+    html += '<p style="font-size:14px; margin:0;">' + esc(yinYangMsg) + '</p>';
+    html += '</div>';
+  }
 
   if (unmatched.length){
     html += '<p style="font-size:12px; color:var(--text-muted); margin:12px 0 0;">Not recognized, included as-is: ' + esc(unmatched.join(", ")) + '</p>';
