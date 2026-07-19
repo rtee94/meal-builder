@@ -50,55 +50,82 @@
   }
   h1 { font-size: 20px; font-weight: 500; margin-bottom: 1.5rem; }
   label { display: block; font-size: 14px; color: var(--text-secondary); margin-bottom: 6px; }
-  textarea {
-    width: 100%; box-sizing: border-box; font-size: 14px; padding: 8px 10px;
+  input[type="text"] {
+    width: 100%; box-sizing: border-box; font-size: 14px; padding: 9px 10px;
     border: 0.5px solid var(--border); border-radius: var(--radius);
-    background: var(--surface-2); color: var(--text-primary); resize: vertical;
-    margin-bottom: 8px; font-family: inherit;
+    background: var(--surface-2); color: var(--text-primary); font-family: inherit;
   }
   button {
     font-size: 14px; padding: 8px 14px; border: 0.5px solid var(--border);
     border-radius: var(--radius); background: var(--surface-2); color: var(--text-primary);
     cursor: pointer;
   }
-  select {
-    font-size: 14px; padding: 8px 10px; border: 0.5px solid var(--border);
-    border-radius: var(--radius); background: var(--surface-2); color: var(--text-primary);
-    font-family: inherit; flex: 1; min-width: 160px;
-  }
   button:hover { background: var(--surface-1); }
   button:active { transform: scale(0.98); }
-  .row { display: flex; gap: 8px; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  select {
+    font-size: 13px; padding: 5px 8px; border: 0.5px solid var(--border);
+    border-radius: var(--radius); background: var(--surface-2); color: var(--text-primary);
+    font-family: inherit; cursor: pointer;
+  }
+  .row { display: flex; gap: 8px; align-items: center; margin: 12px 0 1.5rem; flex-wrap: wrap; }
   .card { background: var(--surface-2); border-radius: 12px; border: 0.5px solid var(--border); padding: 1rem 1.25rem; }
   .card h3 { margin: 0 0 12px; font-size: 16px; font-weight: 500; }
   .label-sm { font-size: 13px; color: var(--text-secondary); margin: 0 0 6px; }
-  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 3px 10px; border-radius: var(--radius); margin: 0 6px 6px 0; }
   ol { margin: 0 0 16px; padding-left: 20px; font-size: 14px; }
   ol li { margin-bottom: 6px; }
-  .divider { border-top: 0.5px solid var(--border); padding-top: 12px; }
+  .divider { border-top: 0.5px solid var(--border); padding-top: 12px; margin-top: 12px; }
   .bar { display: flex; height: 8px; border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
   .about { font-size: 13px; color: var(--text-secondary); margin: 0 0 1.5rem; }
+
+  .search-wrap { position: relative; }
+  .suggestions {
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 20;
+    background: var(--surface-2); border: 0.5px solid var(--border);
+    border-radius: var(--radius); margin-top: 4px; max-height: 280px; overflow-y: auto;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+  .suggestion { display: flex; align-items: center; gap: 9px; padding: 8px 11px; cursor: pointer; font-size: 14px; }
+  .suggestion:hover, .suggestion.active { background: var(--surface-1); }
+  .suggestion .zone { margin-left: auto; font-size: 11px; color: var(--text-muted); text-transform: capitalize; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 4px 6px 4px 10px; border-radius: var(--radius); }
+  .chip button { border: none; background: transparent; cursor: pointer; font-size: 16px; line-height: 1; padding: 0 3px; color: inherit; }
+  .chips-empty { font-size: 13px; color: var(--text-muted); margin: 10px 0 0; }
+
+  .ing-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 0; border-bottom: 0.5px dashed var(--border); }
+  .ing-row:last-child { border-bottom: none; }
+  .ing-name { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; }
+  .ing-controls { display: flex; gap: 6px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+  .mini-btn { font-size: 12px; padding: 4px 9px; }
+  .swap-list { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; margin: 2px 0 4px; }
+  .swap-head { width: 100%; font-size: 12px; color: var(--text-secondary); margin: 4px 0 0; }
+  .swap-opt {
+    font-size: 12px; padding: 4px 9px; border: 0.5px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-1); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .swap-opt:hover { border-color: var(--text-muted); }
 </style>
 </head>
 <body>
 
 <h1>Master Meal Maker - Finally Health Framework</h1>
 
-<p class="about">Master Meal Maker turns whatever you have on hand into a Master Meal aligned with the Finally Health Framework. Enter your available ingredients and it builds a balanced recipe from them - and because it works from categories rather than fixed recipes, you can freely swap ingredients or cooking methods based on what's actually available and still stay on framework.</p>
+<p class="about">Master Meal Maker turns whatever you have on hand into a Master Meal aligned with the Finally Health Framework. Start typing an ingredient, pick from the list, and build a balanced recipe - then click any ingredient to swap it for something similar or change how it's cooked, based on what's actually available.</p>
 
-<label for="ingredients-input">Ingredients you have (comma separated)</label>
-<textarea id="ingredients-input" rows="2" placeholder="chicken breast, broccoli, brown rice, olive oil, garlic"></textarea>
-
-<div class="row">
-  <select id="ingredient-select">
-    <option value="">Pick an ingredient to add...</option>
-  </select>
-  <button id="add-ingredient-btn" type="button">Add</button>
+<label for="search">Add ingredients (type to search)</label>
+<div class="search-wrap">
+  <input type="text" id="search" autocomplete="off" placeholder="Start typing... e.g. chicken, broccoli, rice">
+  <div id="suggestions" class="suggestions" style="display:none;"></div>
 </div>
+
+<div id="chips" class="chips-empty">No ingredients added yet - search above, or try an example.</div>
 
 <div class="row">
   <button id="generate-btn">Generate recipe</button>
   <button id="example-btn">Try an example</button>
+  <button id="clear-btn">Clear</button>
 </div>
 
 <div id="output"></div>
@@ -217,40 +244,6 @@ var DB = {
   "juice": {macro:"carb", color:"red", cat:"combo", method:"raw"}
 };
 
-var UNIT_RE = /^[\d\/\.\s]*\b(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|kg|grams?|g|cloves?|slices?|cans?|pieces?|whole|small|medium|large|handful|bunch|of)\b\.?\s*/i;
-var LEAD_NUM_RE = /^[\d\/\.\s]+/;
-
-function esc(s){
-  return String(s).replace(/[&<>"']/g, function(c){
-    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
-  });
-}
-function cap(s){ return s.replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }
-
-function cleanName(raw){
-  var s = raw.toLowerCase().trim();
-  s = s.replace(LEAD_NUM_RE, "");
-  s = s.replace(UNIT_RE, "");
-  s = s.replace(UNIT_RE, "");
-  s = s.replace(/\s+/g, " ").trim();
-  return s;
-}
-
-function matchIngredient(raw){
-  var name = cleanName(raw);
-  if (!name) return null;
-  if (DB[name]) return Object.assign({name:name, raw:raw.trim()}, DB[name]);
-  var bestKey = null;
-  for (var key in DB){
-    if (name === key) { bestKey = key; break; }
-    if (name.indexOf(key) !== -1 || key.indexOf(name) !== -1){
-      if (!bestKey || key.length > bestKey.length) bestKey = key;
-    }
-  }
-  if (bestKey) return Object.assign({name:bestKey, raw:raw.trim()}, DB[bestKey]);
-  return null;
-}
-
 var COLOR_VARS = {
   green: {bg:"var(--bg-success)", text:"var(--text-success)", fill:"var(--fill-success)"},
   yellow: {bg:"var(--bg-warning)", text:"var(--text-warning)", fill:"var(--fill-warning)"},
@@ -259,6 +252,31 @@ var COLOR_VARS = {
 
 var VERB_TITLE = {sear:"Pan-seared", roast:"Roasted", bake:"Baked", saute:"Sauteed", boil:"Simmered", raw:"Fresh", "as-is":"Toasted"};
 
+// Which cooking methods make sense per category (keeps generated steps coherent)
+var METHODS_BY_CAT = {
+  protein: ["sear","saute","bake","roast","boil","raw"],
+  veg: ["roast","saute","boil","raw"],
+  carb: ["boil","roast","as-is","raw"],
+  fat: ["raw"],
+  dairy: ["raw"],
+  combo: ["raw"]
+};
+var METHOD_LABEL = {sear:"Pan-sear", saute:"Saute", bake:"Bake", roast:"Roast", boil:"Boil / simmer", raw:"Raw", "as-is":"Toast"};
+
+var COLOR_ORDER = {green:0, yellow:1, red:2};
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+function cap(s){ return s.replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }
+
+function makeItem(name){
+  var d = DB[name];
+  return {name:name, macro:d.macro, color:d.color, cat:d.cat, method:d.method};
+}
+
 function yellowDominance(item){
   if (item.color !== "yellow") return null;
   if (item.macro.indexOf("fat") !== -1) return "fat";
@@ -266,45 +284,169 @@ function yellowDominance(item){
   return null;
 }
 
-function badge(item){
-  var c = COLOR_VARS[item.color];
-  return '<span class="badge" style="background:'+c.bg+'; color:'+c.text+';">'+esc(cap(item.name))+'</span>';
+function dot(color){
+  return '<span class="dot" style="background:'+COLOR_VARS[color].fill+';"></span>';
 }
 
-function buildSteps(groups){
+// ---- State ----
+var selected = [];      // array of item objects
+var generated = false;  // has the user generated a recipe yet
+var openSwapIdx = null;  // index of ingredient row whose swap list is open
+
+// ---- Autocomplete ----
+var searchEl = document.getElementById("search");
+var suggEl = document.getElementById("suggestions");
+var activeSugg = -1;
+var currentMatches = [];
+
+function searchFoods(q){
+  q = q.toLowerCase().trim();
+  if (!q) return [];
+  var starts = [], contains = [];
+  for (var key in DB){
+    var i = key.indexOf(q);
+    if (i === 0) starts.push(key);
+    else if (i > 0) contains.push(key);
+  }
+  return starts.concat(contains).slice(0, 8);
+}
+
+function renderSuggestions(){
+  currentMatches = searchFoods(searchEl.value);
+  activeSugg = -1;
+  if (!currentMatches.length){ suggEl.style.display = "none"; suggEl.innerHTML = ""; return; }
+  var html = "";
+  currentMatches.forEach(function(name, idx){
+    var d = DB[name];
+    html += '<div class="suggestion" data-idx="'+idx+'">' + dot(d.color) +
+            '<span>' + esc(cap(name)) + '</span>' +
+            '<span class="zone">' + d.color + '</span></div>';
+  });
+  suggEl.innerHTML = html;
+  suggEl.style.display = "block";
+}
+
+function addIngredient(name){
+  if (!DB[name]) return;
+  var exists = selected.some(function(it){ return it.name === name; });
+  if (!exists) selected.push(makeItem(name));
+  searchEl.value = "";
+  suggEl.style.display = "none";
+  suggEl.innerHTML = "";
+  renderChips();
+  if (generated) renderRecipe();
+  searchEl.focus();
+}
+
+searchEl.addEventListener("input", renderSuggestions);
+searchEl.addEventListener("keydown", function(e){
+  if (suggEl.style.display === "none") return;
+  if (e.key === "ArrowDown"){ e.preventDefault(); activeSugg = Math.min(activeSugg+1, currentMatches.length-1); paintActive(); }
+  else if (e.key === "ArrowUp"){ e.preventDefault(); activeSugg = Math.max(activeSugg-1, 0); paintActive(); }
+  else if (e.key === "Enter"){
+    e.preventDefault();
+    var pick = activeSugg >= 0 ? currentMatches[activeSugg] : currentMatches[0];
+    if (pick) addIngredient(pick);
+  } else if (e.key === "Escape"){ suggEl.style.display = "none"; }
+});
+function paintActive(){
+  var nodes = suggEl.querySelectorAll(".suggestion");
+  nodes.forEach(function(n, i){ n.classList.toggle("active", i === activeSugg); });
+}
+suggEl.addEventListener("click", function(e){
+  var row = e.target.closest(".suggestion");
+  if (!row) return;
+  addIngredient(currentMatches[parseInt(row.getAttribute("data-idx"), 10)]);
+});
+document.addEventListener("click", function(e){
+  if (!e.target.closest(".search-wrap")) suggEl.style.display = "none";
+});
+
+// ---- Chips (working set) ----
+function renderChips(){
+  var el = document.getElementById("chips");
+  if (!selected.length){
+    el.className = "chips-empty";
+    el.innerHTML = "No ingredients added yet - search above, or try an example.";
+    return;
+  }
+  el.className = "chips";
+  el.innerHTML = selected.map(function(it, idx){
+    var c = COLOR_VARS[it.color];
+    return '<span class="chip" style="background:'+c.bg+'; color:'+c.text+';">' + dot(it.color) +
+           esc(cap(it.name)) +
+           '<button type="button" data-chip-remove="'+idx+'" title="Remove">&times;</button></span>';
+  }).join("");
+}
+document.getElementById("chips").addEventListener("click", function(e){
+  var btn = e.target.closest("[data-chip-remove]");
+  if (!btn) return;
+  selected.splice(parseInt(btn.getAttribute("data-chip-remove"), 10), 1);
+  openSwapIdx = null;
+  renderChips();
+  if (generated) renderRecipe();
+});
+
+// ---- Swap options for an ingredient ----
+function swapOptions(item){
+  var opts = [];
+  for (var key in DB){
+    if (key === item.name) continue;
+    var d = DB[key];
+    if (d.cat !== item.cat) continue;
+    if (selected.some(function(it){ return it.name === key; })) continue; // don't offer a duplicate
+    if (d.color === "red") continue;              // never suggest a red downgrade
+    opts.push({name:key, color:d.color});
+  }
+  if (item.color === "red"){
+    // healthier upgrades first (green, then yellow)
+    opts.sort(function(a,b){ return COLOR_ORDER[a.color]-COLOR_ORDER[b.color] || a.name.localeCompare(b.name); });
+  } else {
+    // similar options, no push toward green - just alphabetical
+    opts.sort(function(a,b){ return a.name.localeCompare(b.name); });
+  }
+  return opts.slice(0, 8);
+}
+
+// ---- Recipe building ----
+function methodStep(item){
+  var n = item.name;
+  switch (item.method){
+    case "sear":  return "Heat a little oil in a skillet over medium-high heat and sear the " + n + " 4-6 minutes per side until browned and cooked through.";
+    case "saute": return "Saute the " + n + " in a hot pan with a little oil for 3-5 minutes until cooked through and tender.";
+    case "bake":  return "Bake the " + n + " at 400F (200C) for 18-25 minutes until cooked through.";
+    case "roast": return "Toss the " + n + " with a little oil, salt, and pepper and roast at 425F (220C) for 25-30 minutes, flipping halfway.";
+    case "boil":  return "Simmer the " + n + " in water or broth until tender, about 15-20 minutes.";
+    case "as-is": return "Toast or warm the " + n + " just before serving.";
+    case "raw":
+    default:      return "Add the " + n + " raw, either mixed in or served on the side.";
+  }
+}
+
+function groupItems(items){
+  var groups = {protein:[], veg:[], carb:[], fat:[], dairy:[], combo:[]};
+  items.forEach(function(m){ groups[m.cat].push(m); });
+  return groups;
+}
+
+function buildSteps(items){
+  var groups = groupItems(items);
   var steps = [];
-  var proteins = groups.protein, vegs = groups.veg, carbs = groups.carb, fats = groups.fat.concat(groups.dairy), combos = groups.combo;
-  var primaryFat = fats[0];
-  var fatName = primaryFat ? primaryFat.name : "olive oil";
+  var proteins = groups.protein, vegs = groups.veg, combos = groups.combo;
 
   var prepBits = [];
   if (proteins.length) prepBits.push("pat the " + proteins.map(function(p){return p.name;}).join(" and ") + " dry and season with salt and pepper");
   if (vegs.length) prepBits.push("wash and chop the " + vegs.map(function(v){return v.name;}).join(", "));
   if (prepBits.length) steps.push("Prep: " + cap(prepBits.join("; ")) + ".");
 
-  carbs.forEach(function(c){
-    if (c.method === "boil") steps.push("Cook the " + c.name + " in water or broth per package directions, about 15-20 minutes, until tender.");
-    else if (c.method === "roast") steps.push("Toss the " + c.name + " with a little " + fatName + ", salt, and pepper. Roast at 425F (220C) for 25-30 minutes, flipping halfway.");
-    else if (c.method === "as-is") steps.push("Toast or warm the " + c.name + " just before serving.");
-    else steps.push("Prepare the " + c.name + " and set aside.");
+  // cook in a sensible order: carbs, proteins, veg, then fats/dairy finishers
+  groups.carb.forEach(function(it){ steps.push(methodStep(it)); });
+  groups.protein.forEach(function(it){ steps.push(methodStep(it)); });
+  groups.veg.forEach(function(it){ steps.push(methodStep(it)); });
+  groups.fat.concat(groups.dairy).forEach(function(it){
+    if (it.method === "raw") steps.push("Finish with the " + it.name + " for richness and flavor.");
+    else steps.push(methodStep(it));
   });
-
-  proteins.forEach(function(p){
-    if (p.method === "sear") steps.push("Heat " + fatName + " in a skillet over medium-high heat. Sear the " + p.name + " 4-6 minutes per side until browned and cooked through.");
-    else if (p.method === "saute") steps.push("Heat " + fatName + " in a pan over medium heat. Saute the " + p.name + " 3-5 minutes, stirring, until cooked through.");
-    else if (p.method === "bake" || p.method === "roast") steps.push("Rub the " + p.name + " with " + fatName + ", season, and roast at 400F (200C) for 18-25 minutes until cooked through.");
-    else steps.push("Add the " + p.name + " as-is, no cooking needed.");
-  });
-
-  var roastVeg = vegs.filter(function(v){ return v.method === "roast"; });
-  var sauteVeg = vegs.filter(function(v){ return v.method === "saute"; });
-  var rawVeg = vegs.filter(function(v){ return v.method === "raw"; });
-  if (roastVeg.length) steps.push("Roast the " + roastVeg.map(function(v){return v.name;}).join(", ") + " alongside the carb, or on a separate tray, until tender and lightly charred.");
-  if (sauteVeg.length) steps.push("Saute the " + sauteVeg.map(function(v){return v.name;}).join(", ") + " in the same pan as the protein for 3-4 minutes until just softened.");
-  if (rawVeg.length) steps.push("Add the " + rawVeg.map(function(v){return v.name;}).join(", ") + " raw, either mixed in or served on the side.");
-
-  var extraFats = fats.slice(1);
-  if (extraFats.length) steps.push("Finish with " + extraFats.map(function(f){return f.name;}).join(" and ") + " for extra richness.");
 
   if (combos.length) steps.push("If using " + combos.map(function(c){return c.name;}).join(", ") + ", keep it a small side or garnish rather than a main component - it sits in the red zone of the framework.");
 
@@ -312,7 +454,8 @@ function buildSteps(groups){
   return steps;
 }
 
-function buildTitle(groups){
+function buildTitle(items){
+  var groups = groupItems(items);
   var proteins = groups.protein, vegs = groups.veg, carbs = groups.carb;
   var parts = [];
   if (proteins.length){
@@ -327,19 +470,52 @@ function buildTitle(groups){
   return parts[0] + (rest.length ? " with " + rest.join(" and ") : "");
 }
 
-function render(matched, unmatched){
+function methodSelectHtml(item, idx){
+  var methods = METHODS_BY_CAT[item.cat] || ["raw"];
+  if (methods.length <= 1) return '<span style="font-size:12px; color:var(--text-muted);">' + esc(METHOD_LABEL[item.method] || item.method) + '</span>';
+  var html = '<select data-method-idx="'+idx+'" title="Cooking method">';
+  methods.forEach(function(m){
+    html += '<option value="'+m+'"' + (m === item.method ? ' selected' : '') + '>' + esc(METHOD_LABEL[m] || m) + '</option>';
+  });
+  html += '</select>';
+  return html;
+}
+
+function ingredientRowHtml(item, idx){
+  var html = '<div class="ing-row">';
+  html += '<span class="ing-name">' + dot(item.color) + esc(cap(item.name)) + '</span>';
+  html += '<span class="ing-controls">';
+  html += methodSelectHtml(item, idx);
+  html += '<button type="button" class="mini-btn" data-swap-toggle="'+idx+'">Swap</button>';
+  html += '</span>';
+
+  if (openSwapIdx === idx){
+    var opts = swapOptions(item);
+    html += '<div class="swap-list">';
+    html += '<p class="swap-head">' + (item.color === "red" ? "Healthier swaps (yellow / green):" : "Similar swaps:") + '</p>';
+    if (!opts.length){
+      html += '<span style="font-size:12px; color:var(--text-muted);">No other options in this category.</span>';
+    } else {
+      opts.forEach(function(o){
+        html += '<span class="swap-opt" data-swap-do="'+idx+'" data-swap-name="'+esc(o.name)+'">' + dot(o.color) + esc(cap(o.name)) + '</span>';
+      });
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderRecipe(){
   var out = document.getElementById("output");
-  if (!matched.length){
-    out.innerHTML = '<p style="color:var(--text-secondary); font-size:14px;">No ingredients recognized yet. Try common whole foods like chicken breast, broccoli, brown rice, or olive oil.</p>';
+  if (!selected.length){
+    out.innerHTML = '<p style="color:var(--text-secondary); font-size:14px;">No ingredients yet. Add a few above, then generate your Master Meal.</p>';
     return;
   }
 
-  var groups = {protein:[], veg:[], carb:[], fat:[], dairy:[], combo:[]};
-  matched.forEach(function(m){ groups[m.cat].push(m); });
-
   var counts = {green:0, yellow:0, red:0};
-  matched.forEach(function(m){ counts[m.color]++; });
-  var total = matched.length;
+  selected.forEach(function(m){ counts[m.color]++; });
+  var total = selected.length;
   var pct = {
     green: Math.round(counts.green / total * 100),
     yellow: Math.round(counts.yellow / total * 100),
@@ -347,13 +523,13 @@ function render(matched, unmatched){
   };
 
   var tip;
-  if (pct.red > 30) tip = "This meal leans into the red zone. Consider swapping a processed item for a whole-food alternative to cut the blood sugar spike.";
+  if (pct.red > 30) tip = "This meal leans into the red zone. Click a red ingredient above to swap it for a whole-food alternative and cut the blood sugar spike.";
   else if (pct.green >= 50) tip = "Solid foundation - this meal is built mostly around green vegetables and lean protein, per the framework.";
   else if (pct.yellow > 60) tip = "Mostly yellow-zone foods here - nutritious, but calorie dense, so keep an eye on portion size.";
   else tip = "Balanced mix. Adding another green vegetable would boost fiber and fullness further.";
 
   var yellowCarbItems = [], yellowFatItems = [];
-  matched.forEach(function(m){
+  selected.forEach(function(m){
     var d = yellowDominance(m);
     if (d === "carb") yellowCarbItems.push(m.name);
     else if (d === "fat") yellowFatItems.push(m.name);
@@ -373,17 +549,17 @@ function render(matched, unmatched){
     }
   }
 
-  var title = buildTitle(groups);
-  var steps = buildSteps(groups);
+  var title = buildTitle(selected);
+  var steps = buildSteps(selected);
 
   var html = '';
   html += '<div class="card">';
   html += '<h3>' + esc(title) + '</h3>';
 
-  html += '<p class="label-sm">Ingredients used</p>';
-  html += '<div style="margin-bottom:16px;">' + matched.map(badge).join('') + '</div>';
+  html += '<p class="label-sm">Ingredients (click Swap to change, or pick a cooking method)</p>';
+  selected.forEach(function(it, idx){ html += ingredientRowHtml(it, idx); });
 
-  html += '<p class="label-sm">Steps</p>';
+  html += '<p class="label-sm" style="margin-top:16px;">Steps</p>';
   html += '<ol>';
   steps.forEach(function(s){ html += '<li>' + esc(s) + '</li>'; });
   html += '</ol>';
@@ -412,47 +588,65 @@ function render(matched, unmatched){
     html += '</div>';
   }
 
-  if (unmatched.length){
-    html += '<p style="font-size:12px; color:var(--text-muted); margin:12px 0 0;">Not recognized, included as-is: ' + esc(unmatched.join(", ")) + '</p>';
-  }
-
   html += '</div>';
   out.innerHTML = html;
 }
 
-function run(){
-  var raw = document.getElementById("ingredients-input").value;
-  var pieces = raw.split(",").map(function(s){ return s.trim(); }).filter(Boolean);
-  var matched = [], unmatched = [];
-  pieces.forEach(function(p){
-    var m = matchIngredient(p);
-    if (m) matched.push(m); else unmatched.push(p);
-  });
-  render(matched, unmatched);
-}
+// ---- Recipe interactions (event delegation) ----
+var outputEl = document.getElementById("output");
+outputEl.addEventListener("click", function(e){
+  var toggle = e.target.closest("[data-swap-toggle]");
+  if (toggle){
+    var i = parseInt(toggle.getAttribute("data-swap-toggle"), 10);
+    openSwapIdx = (openSwapIdx === i) ? null : i;
+    renderRecipe();
+    return;
+  }
+  var doSwap = e.target.closest("[data-swap-do]");
+  if (doSwap){
+    var idx = parseInt(doSwap.getAttribute("data-swap-do"), 10);
+    var newName = doSwap.getAttribute("data-swap-name");
+    if (DB[newName]){
+      selected[idx] = makeItem(newName);
+      openSwapIdx = null;
+      renderChips();
+      renderRecipe();
+    }
+    return;
+  }
+});
+outputEl.addEventListener("change", function(e){
+  var sel = e.target.closest("[data-method-idx]");
+  if (!sel) return;
+  var idx = parseInt(sel.getAttribute("data-method-idx"), 10);
+  selected[idx].method = sel.value;
+  renderRecipe();
+});
 
-document.getElementById("generate-btn").addEventListener("click", run);
+// ---- Buttons ----
+document.getElementById("generate-btn").addEventListener("click", function(){
+  generated = true;
+  openSwapIdx = null;
+  renderRecipe();
+});
 document.getElementById("example-btn").addEventListener("click", function(){
-  document.getElementById("ingredients-input").value = "chicken breast, broccoli, brown rice, olive oil, garlic";
-  run();
+  selected = ["chicken breast", "broccoli", "brown rice", "olive oil", "garlic"].map(makeItem);
+  generated = true;
+  openSwapIdx = null;
+  renderChips();
+  renderRecipe();
+});
+document.getElementById("clear-btn").addEventListener("click", function(){
+  selected = [];
+  generated = false;
+  openSwapIdx = null;
+  renderChips();
+  document.getElementById("output").innerHTML = "";
+  searchEl.value = "";
+  suggEl.style.display = "none";
 });
 
-var ingredientSelect = document.getElementById("ingredient-select");
-Object.keys(DB).sort().forEach(function(key){
-  var opt = document.createElement("option");
-  opt.value = key;
-  opt.textContent = cap(key);
-  ingredientSelect.appendChild(opt);
-});
-
-document.getElementById("add-ingredient-btn").addEventListener("click", function(){
-  var val = ingredientSelect.value;
-  if (!val) return;
-  var ta = document.getElementById("ingredients-input");
-  var current = ta.value.trim();
-  ta.value = current ? current + ", " + cap(val) : cap(val);
-  ingredientSelect.value = "";
-});
+renderChips();
 
 })();
 </script>
