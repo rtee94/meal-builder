@@ -50,10 +50,11 @@
   }
   h1 { font-size: 20px; font-weight: 500; margin-bottom: 1.5rem; }
   label { display: block; font-size: 14px; color: var(--text-secondary); margin-bottom: 6px; }
-  input[type="text"] {
-    width: 100%; box-sizing: border-box; font-size: 14px; padding: 9px 10px;
+  textarea {
+    width: 100%; box-sizing: border-box; font-size: 14px; padding: 8px 10px;
     border: 0.5px solid var(--border); border-radius: var(--radius);
-    background: var(--surface-2); color: var(--text-primary); font-family: inherit;
+    background: var(--surface-2); color: var(--text-primary); resize: vertical;
+    margin-bottom: 8px; font-family: inherit;
   }
   button {
     font-size: 14px; padding: 8px 14px; border: 0.5px solid var(--border);
@@ -62,65 +63,61 @@
   }
   button:hover { background: var(--surface-1); }
   button:active { transform: scale(0.98); }
-  select {
-    font-size: 13px; padding: 5px 8px; border: 0.5px solid var(--border);
-    border-radius: var(--radius); background: var(--surface-2); color: var(--text-primary);
-    font-family: inherit; cursor: pointer;
-  }
-  .row { display: flex; gap: 8px; align-items: center; margin: 12px 0 1.5rem; flex-wrap: wrap; }
+  .row { display: flex; gap: 8px; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
   .card { background: var(--surface-2); border-radius: 12px; border: 0.5px solid var(--border); padding: 1rem 1.25rem; }
   .card h3 { margin: 0 0 12px; font-size: 16px; font-weight: 500; }
   .label-sm { font-size: 13px; color: var(--text-secondary); margin: 0 0 6px; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 3px 10px; border-radius: var(--radius); margin: 0 6px 6px 0; }
   ol { margin: 0 0 16px; padding-left: 20px; font-size: 14px; }
   ol li { margin-bottom: 6px; }
-  .divider { border-top: 0.5px solid var(--border); padding-top: 12px; margin-top: 12px; }
+  .divider { border-top: 0.5px solid var(--border); padding-top: 12px; }
   .bar { display: flex; height: 8px; border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
-  .about { font-size: 13px; color: var(--text-secondary); margin: 0 0 1.5rem; }
-
-  .search-wrap { position: relative; }
+  .top-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .top-row a { font-size: 12px; color: var(--text-muted); }
+  .search-wrap { position: relative; margin-bottom: 8px; }
+  input[type="text"] {
+    width: 100%; box-sizing: border-box; font-size: 14px; padding: 8px 10px;
+    border: 0.5px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-2); color: var(--text-primary); font-family: inherit;
+  }
   .suggestions {
-    position: absolute; top: 100%; left: 0; right: 0; z-index: 20;
+    position: absolute; top: 100%; left: 0; right: 0; margin-top: 4px;
     background: var(--surface-2); border: 0.5px solid var(--border);
-    border-radius: var(--radius); margin-top: 4px; max-height: 280px; overflow-y: auto;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    border-radius: var(--radius); max-height: 280px; overflow-y: auto; z-index: 10;
   }
-  .suggestion { display: flex; align-items: center; gap: 9px; padding: 8px 11px; cursor: pointer; font-size: 14px; }
-  .suggestion:hover, .suggestion.active { background: var(--surface-1); }
-  .suggestion .zone { margin-left: auto; font-size: 11px; color: var(--text-muted); text-transform: capitalize; }
+  .suggestions button {
+    display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+    border: none; border-radius: 0; background: transparent; padding: 8px 12px;
+  }
   .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
-
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
-  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 4px 6px 4px 10px; border-radius: var(--radius); }
-  .chip button { border: none; background: transparent; cursor: pointer; font-size: 16px; line-height: 1; padding: 0 3px; color: inherit; }
-  .chips-empty { font-size: 13px; color: var(--text-muted); margin: 10px 0 0; }
-
-  .ing-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 0; border-bottom: 0.5px dashed var(--border); }
-  .ing-row:last-child { border-bottom: none; }
-  .ing-name { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; }
-  .ing-controls { display: flex; gap: 6px; align-items: center; margin-left: auto; flex-wrap: wrap; }
-  .mini-btn { font-size: 12px; padding: 4px 9px; }
-  .swap-list { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; margin: 2px 0 4px; }
-  .swap-head { width: 100%; font-size: 12px; color: var(--text-secondary); margin: 4px 0 0; }
-  .swap-opt {
-    font-size: 12px; padding: 4px 9px; border: 0.5px solid var(--border); border-radius: var(--radius);
-    background: var(--surface-1); color: var(--text-primary); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; padding: 4px 10px; border-radius: 999px; }
+  .chip button { border: none; background: none; padding: 0 2px; font-size: 15px; color: inherit; line-height: 1; }
+  .badge .swap-btn { border: none; background: none; padding: 0 0 0 4px; font-size: 13px; color: inherit; line-height: 1; cursor: pointer; }
+  .swap-panel { background: var(--surface-1); border-radius: var(--radius); padding: 10px 12px; margin: 0 0 16px; }
+  .swap-panel button {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13px;
+    padding: 4px 10px; margin: 0 6px 6px 0; border-radius: 999px;
+    border: 0.5px solid var(--border); background: var(--surface-2);
   }
-  .swap-opt:hover { border-color: var(--text-muted); }
+  .about { font-size: 13px; color: var(--text-secondary); margin: 0 0 1.5rem; }
 </style>
 </head>
 <body>
 
-<h1>Master Meal Maker - Finally Health Framework</h1>
+<div class="top-row">
+  <h1>Master Meal Maker - Finally Health Framework</h1>
+  <a href="mailto:royceadrian.tee@gmail.com?subject=Meal%20plan%20builder%20-%20ingredient%20suggestion&body=Ingredient%20name%3A%0A%0AWhat%20it%20is%20(short%20description)%3A%0A">Can't find your ingredient? Submit a suggestion</a>
+</div>
 
 <p class="about">Master Meal Maker turns whatever you have on hand into a Master Meal aligned with the Finally Health Framework. Start typing an ingredient, pick from the list, and build a balanced recipe - then click any ingredient to swap it for something similar or change how it's cooked, based on what's actually available.</p>
 
-<label for="search">Add ingredients (type to search)</label>
+<label for="ingredients-input">Add ingredients (type to search the list)</label>
 <div class="search-wrap">
-  <input type="text" id="search" autocomplete="off" placeholder="Start typing... e.g. chicken, broccoli, rice">
-  <div id="suggestions" class="suggestions" style="display:none;"></div>
+  <input id="ingredients-input" type="text" autocomplete="off" placeholder="Start typing: kangkong, bangus, chicken breast...">
+  <div id="suggestions" class="suggestions" hidden></div>
 </div>
-
-<div id="chips" class="chips-empty">No ingredients added yet - search above, or try an example.</div>
+<div id="chips" class="chips"></div>
 
 <div class="row">
   <button id="generate-btn">Generate recipe</button>
@@ -228,8 +225,8 @@ var DB = {
   "canola oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
   "soybean oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
   "margarine": {macro:"fat", color:"red", cat:"fat", method:"raw"},
-  "white bread": {macro:"carb", color:"red", cat:"carb", method:"as-is"},
-  "white pasta": {macro:"carb", color:"red", cat:"carb", method:"boil"},
+  "white bread": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "white pasta": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
   "sugar": {macro:"carb", color:"red", cat:"combo", method:"raw"},
   "candy": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
   "soda": {macro:"carb", color:"red", cat:"combo", method:"raw"},
@@ -241,29 +238,544 @@ var DB = {
   "gummy bears": {macro:"carb", color:"red", cat:"combo", method:"raw"},
   "jelly beans": {macro:"carb", color:"red", cat:"combo", method:"raw"},
   "cereal": {macro:"carb", color:"red", cat:"carb", method:"raw"},
-  "juice": {macro:"carb", color:"red", cat:"combo", method:"raw"}
+  "juice": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+
+  "halibut": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "haddock": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "sea bass": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "snapper": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "mahi mahi": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "flounder": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "sole": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "pollock": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "catfish": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "canned tuna": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "scallops": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "crab": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "lobster": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "calamari": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "squid": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "mussels": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "clams": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "oysters": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "ground turkey": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "ground chicken": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "deli turkey": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "ham": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "venison": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "bison": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "elk": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "rabbit": {macro:"protein", color:"green", cat:"protein", method:"roast"},
+  "flank steak": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "eye of round": {macro:"protein", color:"green", cat:"protein", method:"roast"},
+  "beef tenderloin": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "filet mignon": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "pork loin": {macro:"protein", color:"green", cat:"protein", method:"roast"},
+  "liver": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "seitan": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "cottage cheese": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "protein powder": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "whey protein": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+
+  "trout": {macro:"fat+protein", color:"yellow", cat:"protein", method:"bake"},
+  "mackerel": {macro:"fat+protein", color:"yellow", cat:"protein", method:"bake"},
+  "sardines": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "anchovies": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "herring": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "smoked salmon": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "rotisserie chicken": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "chicken wings": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "chicken drumsticks": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "drumsticks": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "pork chop": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "strip steak": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "t-bone": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "brisket": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "short ribs": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "spare ribs": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "ribs": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "pork belly": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "pulled pork": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "ground pork": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "duck breast": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "duck": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "lamb": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "lamb chops": {macro:"fat+protein", color:"yellow", cat:"protein", method:"sear"},
+  "chorizo": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "salami": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "pepperoni": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "prosciutto": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "hot dog": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "meatballs": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+
+  "parmesan": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "feta": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "goat cheese": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "brie": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "swiss cheese": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "blue cheese": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "cream cheese": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "ricotta": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "string cheese": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "halloumi": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"saute"},
+  "paneer": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"saute"},
+  "yogurt": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "whole milk": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "skim milk": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "kefir": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "cream": {macro:"fat", color:"yellow", cat:"dairy", method:"raw"},
+  "heavy cream": {macro:"fat", color:"yellow", cat:"dairy", method:"raw"},
+  "sour cream": {macro:"fat", color:"yellow", cat:"dairy", method:"raw"},
+  "almond milk": {macro:"fat", color:"yellow", cat:"dairy", method:"raw"},
+  "oat milk": {macro:"carb", color:"yellow", cat:"dairy", method:"raw"},
+  "soy milk": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "ghee": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+
+  "pistachios": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "pecans": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "macadamia nuts": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "hazelnuts": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "brazil nuts": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "pine nuts": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "almond butter": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "tahini": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "sesame seeds": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "pumpkin seeds": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "hemp seeds": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "mixed nuts": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "trail mix": {macro:"fat+protein", color:"yellow", cat:"fat", method:"raw"},
+  "coconut flakes": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+
+  "pinto beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "navy beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "white beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "cannellini beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "black-eyed peas": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "split peas": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "mung beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "fava beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "lima beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "refried beans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"saute"},
+  "hummus": {macro:"carb+protein", color:"yellow", cat:"carb", method:"raw"},
+  "soybeans": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "peas": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "green peas": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "falafel": {macro:"carb+protein", color:"yellow", cat:"carb", method:"saute"},
+  "miso": {macro:"carb+protein", color:"yellow", cat:"carb", method:"raw"},
+
+  "oatmeal": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "steel cut oats": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "barley": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "buckwheat": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "millet": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "farro": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "bulgur": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "couscous": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "spelt": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "jasmine rice": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "basmati rice": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "wild rice": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "rice noodles": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "soba noodles": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "udon": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "egg noodles": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "gnocchi": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "polenta": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "grits": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "rye bread": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "sourdough": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "multigrain bread": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "pita": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "naan": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "bagel": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "baguette": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "tortilla": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "corn tortilla": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "flour tortilla": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "popcorn": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "pretzels": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "crackers": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "granola": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "muesli": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "granola bar": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "protein bar": {macro:"carb+protein", color:"yellow", cat:"carb", method:"raw"},
+  "plantain": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "yam": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "taro": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "cassava": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "butternut squash": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "acorn squash": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "pumpkin": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "parsnip": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+
+  "orange": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "grapes": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "mango": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "pineapple": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "watermelon": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "raspberries": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "blackberries": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "kiwi": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "peach": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "pear": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "plum": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "cherries": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "pomegranate": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "papaya": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "cantaloupe": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "honeydew": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "melon": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "dates": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "figs": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "raisins": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "prunes": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "dried fruit": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "apricot": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "nectarine": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "grapefruit": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "lemon": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "lime": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "clementine": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "mandarin": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "tangerine": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "lychee": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "guava": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "dragon fruit": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "passion fruit": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "applesauce": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+
+  "romaine": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "arugula": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "iceberg lettuce": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "mixed greens": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "spring mix": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "endive": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "radicchio": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "watercress": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "swiss chard": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "collard greens": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "mustard greens": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "bok choy": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "napa cabbage": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "red cabbage": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "sauerkraut": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "kimchi": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "pickles": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "radish": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "daikon": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "turnip": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "beets": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "eggplant": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "okra": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "artichoke": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "fennel": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "leek": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "shallot": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "scallions": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "green onion": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "ginger": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "broccolini": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "snow peas": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "snap peas": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "sugar snap peas": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "bean sprouts": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "sprouts": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "seaweed": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "nori": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "hearts of palm": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "bamboo shoots": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "water chestnuts": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "cauliflower rice": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "zucchini noodles": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "zoodles": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "cherry tomatoes": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "jalapeno": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "chili pepper": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "poblano": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "basil": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "cilantro": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "parsley": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "mint": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "dill": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "rosemary": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "thyme": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "oregano": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "chives": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "salsa": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "mustard": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "hot sauce": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "vinegar": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "soy sauce": {macro:"protein", color:"green", cat:"veg", method:"raw"},
+
+  "extra virgin olive oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "avocado oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "mct oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "sesame oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "flaxseed oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "walnut oil": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "olives": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "dark chocolate": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "cacao nibs": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "coconut milk": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "coconut cream": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "lard": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "tallow": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "duck fat": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "guacamole": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "pesto": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "vinaigrette": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+
+  "corn oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "sunflower oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "safflower oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "grapeseed oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "palm oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "shortening": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "hydrogenated oil": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "trans fat": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "mayonnaise": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "ranch": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "caesar dressing": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+  "salad dressing": {macro:"fat", color:"red", cat:"fat", method:"raw"},
+
+  "honey": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "maple syrup": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "syrup": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "agave": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "corn syrup": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "brown sugar": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "jam": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "jelly": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "nutella": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "marshmallows": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "caramel": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "fudge": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "milk chocolate": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "white chocolate": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "chocolate": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "donut": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "donuts": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "pastry": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "croissant": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "muffin": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "cupcake": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "brownie": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "pie": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "cheesecake": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "waffles": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "pancakes": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "french toast": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "cinnamon roll": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "biscuits": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "fries": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "french fries": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "hash browns": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "tater tots": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "onion rings": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "mozzarella sticks": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "chicken nuggets": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "fried chicken": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "potato chips": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "tortilla chips": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "nachos": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "mac and cheese": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "instant noodles": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "ramen": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "hamburger": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "cheeseburger": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "milkshake": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "frappuccino": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "hot chocolate": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "chocolate milk": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "energy drink": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "sports drink": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "sweet tea": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "lemonade": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "cola": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "popsicle": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "sorbet": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "gelato": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "fruit snacks": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "beer": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "wine": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+
+  "kangkong": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "water spinach": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "ampalaya": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "bitter gourd": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "bitter melon": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "malunggay": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "moringa": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "pechay": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "sitaw": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "string beans": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "long beans": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "baguio beans": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "talong": {macro:"carb", color:"green", cat:"veg", method:"roast"},
+  "upo": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "sayote": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "chayote": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "patola": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "labanos": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "kamatis": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "sibuyas": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "bawang": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "luya": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "tanglad": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "kamias": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "togue": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "puso ng saging": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "alugbati": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "saluyot": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "talbos ng kamote": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "dahon ng gabi": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "sigarilyas": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "repolyo": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "mustasa": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "kinchay": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "kutsay": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "siling labuyo": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "siling haba": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "green papaya": {macro:"carb", color:"green", cat:"veg", method:"saute"},
+  "ubod": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "calamansi": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "kalamansi": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "atchara": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "achara": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+  "patis": {macro:"protein", color:"green", cat:"veg", method:"raw"},
+  "bagoong": {macro:"protein", color:"green", cat:"veg", method:"raw"},
+  "alamang": {macro:"protein", color:"green", cat:"veg", method:"raw"},
+  "toyo": {macro:"protein", color:"green", cat:"veg", method:"raw"},
+  "suka": {macro:"carb", color:"green", cat:"veg", method:"raw"},
+
+  "kanin": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "sinangag": {macro:"carb", color:"yellow", cat:"carb", method:"saute"},
+  "bigas": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "malagkit": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "bihon": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "pancit canton": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "canton": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "sotanghon": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "misua": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "pandesal": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "pan de sal": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "lumpia wrapper": {macro:"carb", color:"yellow", cat:"carb", method:"as-is"},
+  "kamote": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "camote": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "kamoteng kahoy": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "gabi": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "ube": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "kalabasa": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "squash": {macro:"carb", color:"yellow", cat:"carb", method:"roast"},
+  "mais": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "munggo": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "monggo": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "patani": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "garbansos": {macro:"carb+protein", color:"yellow", cat:"carb", method:"boil"},
+  "sago": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "langka": {macro:"carb", color:"yellow", cat:"carb", method:"saute"},
+  "jackfruit": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "saba": {macro:"carb", color:"yellow", cat:"carb", method:"boil"},
+  "saging": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "mangga": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "green mango": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "pinya": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "bayabas": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "atis": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "chico": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "lanzones": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "rambutan": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "durian": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "mangosteen": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "santol": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "duhat": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "makopa": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "balimbing": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "dalandan": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "pomelo": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "suha": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "pakwan": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "sampalok": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "tamarind": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "puto": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "suman": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "kutsinta": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "buko": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "niyog": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "gata": {macro:"fat", color:"yellow", cat:"fat", method:"raw"},
+  "gatas": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+  "coconut water": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+  "buko juice": {macro:"carb", color:"yellow", cat:"carb", method:"raw"},
+
+  "bangus": {macro:"fat+protein", color:"yellow", cat:"protein", method:"bake"},
+  "galunggong": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "lapu-lapu": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "lapu lapu": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "maya-maya": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "maya maya": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "tanigue": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "tulingan": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "dilis": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "tamban": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "sardinas": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "tinapa": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "tuyo": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "daing": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "dried fish": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "pusit": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "hipon": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "sugpo": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "alimango": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "alimasag": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "tahong": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "talaba": {macro:"protein", color:"green", cat:"protein", method:"raw"},
+  "halaan": {macro:"protein", color:"green", cat:"protein", method:"boil"},
+  "tokwa": {macro:"protein", color:"green", cat:"protein", method:"saute"},
+  "kambing": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "manok": {macro:"protein", color:"green", cat:"protein", method:"sear"},
+  "baboy": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "baka": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "isda": {macro:"protein", color:"green", cat:"protein", method:"bake"},
+  "itlog": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "itlog na maalat": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "quail eggs": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "balut": {macro:"fat+protein", color:"yellow", cat:"protein", method:"raw"},
+  "giniling": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "tapa": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "corned beef": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "spam": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "longganisa": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "longanisa": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "tocino": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "hotdog": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "lechon": {macro:"fat+protein", color:"yellow", cat:"protein", method:"roast"},
+  "sisig": {macro:"fat+protein", color:"yellow", cat:"protein", method:"saute"},
+  "kesong puti": {macro:"fat+protein", color:"yellow", cat:"dairy", method:"raw"},
+
+  "lechon kawali": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "chicharon": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "crispy pata": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "banana ketchup": {macro:"carb", color:"red", cat:"combo", method:"raw"},
+  "turon": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "banana cue": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "kamote cue": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "camote cue": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "biko": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "bibingka": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "ensaymada": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "hopia": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "polvoron": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "leche flan": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "ube halaya": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "halo-halo": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "halo halo": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "buko pie": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "milk tea": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"},
+  "3 in 1 coffee": {macro:"carb+fat", color:"red", cat:"combo", method:"raw"}
 };
 
-var COLOR_VARS = {
-  green: {bg:"var(--bg-success)", text:"var(--text-success)", fill:"var(--fill-success)"},
-  yellow: {bg:"var(--bg-warning)", text:"var(--text-warning)", fill:"var(--fill-warning)"},
-  red: {bg:"var(--bg-danger)", text:"var(--text-danger)", fill:"var(--fill-danger)"}
-};
-
-var VERB_TITLE = {sear:"Pan-seared", roast:"Roasted", bake:"Baked", saute:"Sauteed", boil:"Simmered", raw:"Fresh", "as-is":"Toasted"};
-
-// Which cooking methods make sense per category (keeps generated steps coherent)
-var METHODS_BY_CAT = {
-  protein: ["sear","saute","bake","roast","boil","raw"],
-  veg: ["roast","saute","boil","raw"],
-  carb: ["boil","roast","as-is","raw"],
-  fat: ["raw"],
-  dairy: ["raw"],
-  combo: ["raw"]
-};
-var METHOD_LABEL = {sear:"Pan-sear", saute:"Saute", bake:"Bake", roast:"Roast", boil:"Boil / simmer", raw:"Raw", "as-is":"Toast"};
-
-var COLOR_ORDER = {green:0, yellow:1, red:2};
+var UNIT_RE = /^[\d\/\.\s]*\b(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|kg|grams?|g|cloves?|slices?|cans?|pieces?|whole|small|medium|large|handful|bunch|of)\b\.?\s*/i;
+var LEAD_NUM_RE = /^[\d\/\.\s]+/;
 
 function esc(s){
   return String(s).replace(/[&<>"']/g, function(c){
@@ -272,181 +784,93 @@ function esc(s){
 }
 function cap(s){ return s.replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }
 
-function makeItem(name){
-  var d = DB[name];
-  return {name:name, macro:d.macro, color:d.color, cat:d.cat, method:d.method};
+function cleanName(raw){
+  var s = raw.toLowerCase().trim();
+  s = s.replace(LEAD_NUM_RE, "");
+  s = s.replace(UNIT_RE, "");
+  s = s.replace(UNIT_RE, "");
+  s = s.replace(/\s+/g, " ").trim();
+  return s;
 }
 
-function yellowDominance(item){
-  if (item.color !== "yellow") return null;
-  if (item.macro.indexOf("fat") !== -1) return "fat";
-  if (item.macro.indexOf("carb") !== -1) return "carb";
+function matchIngredient(raw){
+  var name = cleanName(raw);
+  if (!name) return null;
+  if (DB[name]) return Object.assign({name:name, raw:raw.trim()}, DB[name]);
+  var bestKey = null;
+  for (var key in DB){
+    if (name === key) { bestKey = key; break; }
+    if (name.indexOf(key) !== -1 || key.indexOf(name) !== -1){
+      if (!bestKey || key.length > bestKey.length) bestKey = key;
+    }
+  }
+  if (bestKey) return Object.assign({name:bestKey, raw:raw.trim()}, DB[bestKey]);
   return null;
 }
 
-function dot(color){
-  return '<span class="dot" style="background:'+COLOR_VARS[color].fill+';"></span>';
+var COLOR_VARS = {
+  green: {bg:"var(--bg-success)", text:"var(--text-success)", fill:"var(--fill-success)"},
+  yellow: {bg:"var(--bg-warning)", text:"var(--text-warning)", fill:"var(--fill-warning)"},
+  red: {bg:"var(--bg-danger)", text:"var(--text-danger)", fill:"var(--fill-danger)"}
+};
+
+var VERB_TITLE = {sear:"Pan-seared", roast:"Roasted", bake:"Baked", saute:"Sauteed", boil:"Simmered", grill:"Grilled", "air fry":"Air-fried", steam:"Steamed", raw:"Fresh", "as-is":"Toasted"};
+var METHOD_LABEL = {sear:"Pan-sear", saute:"Saute", bake:"Bake / roast", roast:"Roast", grill:"Grill", "air fry":"Air fryer", steam:"Steam", boil:"Boil / simmer", raw:"Raw / fresh"};
+
+function badge(item){
+  var c = COLOR_VARS[item.color];
+  return '<span class="badge" style="background:'+c.bg+'; color:'+c.text+';">'+esc(cap(item.name))+'<button type="button" class="swap-btn" data-swap="'+esc(item.name)+'" title="Swap this ingredient" aria-label="Swap">&#8644;</button></span>';
 }
 
-// ---- State ----
-var selected = [];      // array of item objects
-var generated = false;  // has the user generated a recipe yet
-var openSwapIdx = null;  // index of ingredient row whose swap list is open
-
-// ---- Autocomplete ----
-var searchEl = document.getElementById("search");
-var suggEl = document.getElementById("suggestions");
-var activeSugg = -1;
-var currentMatches = [];
-
-function searchFoods(q){
-  q = q.toLowerCase().trim();
-  if (!q) return [];
-  var starts = [], contains = [];
-  for (var key in DB){
-    var i = key.indexOf(q);
-    if (i === 0) starts.push(key);
-    else if (i > 0) contains.push(key);
-  }
-  return starts.concat(contains).slice(0, 8);
-}
-
-function renderSuggestions(){
-  currentMatches = searchFoods(searchEl.value);
-  activeSugg = -1;
-  if (!currentMatches.length){ suggEl.style.display = "none"; suggEl.innerHTML = ""; return; }
-  var html = "";
-  currentMatches.forEach(function(name, idx){
-    var d = DB[name];
-    html += '<div class="suggestion" data-idx="'+idx+'">' + dot(d.color) +
-            '<span>' + esc(cap(name)) + '</span>' +
-            '<span class="zone">' + d.color + '</span></div>';
-  });
-  suggEl.innerHTML = html;
-  suggEl.style.display = "block";
-}
-
-function addIngredient(name){
-  if (!DB[name]) return;
-  var exists = selected.some(function(it){ return it.name === name; });
-  if (!exists) selected.push(makeItem(name));
-  searchEl.value = "";
-  suggEl.style.display = "none";
-  suggEl.innerHTML = "";
-  renderChips();
-  if (generated) renderRecipe();
-  searchEl.focus();
-}
-
-searchEl.addEventListener("input", renderSuggestions);
-searchEl.addEventListener("keydown", function(e){
-  if (suggEl.style.display === "none") return;
-  if (e.key === "ArrowDown"){ e.preventDefault(); activeSugg = Math.min(activeSugg+1, currentMatches.length-1); paintActive(); }
-  else if (e.key === "ArrowUp"){ e.preventDefault(); activeSugg = Math.max(activeSugg-1, 0); paintActive(); }
-  else if (e.key === "Enter"){
-    e.preventDefault();
-    var pick = activeSugg >= 0 ? currentMatches[activeSugg] : currentMatches[0];
-    if (pick) addIngredient(pick);
-  } else if (e.key === "Escape"){ suggEl.style.display = "none"; }
-});
-function paintActive(){
-  var nodes = suggEl.querySelectorAll(".suggestion");
-  nodes.forEach(function(n, i){ n.classList.toggle("active", i === activeSugg); });
-}
-suggEl.addEventListener("click", function(e){
-  var row = e.target.closest(".suggestion");
-  if (!row) return;
-  addIngredient(currentMatches[parseInt(row.getAttribute("data-idx"), 10)]);
-});
-document.addEventListener("click", function(e){
-  if (!e.target.closest(".search-wrap")) suggEl.style.display = "none";
-});
-
-// ---- Chips (working set) ----
-function renderChips(){
-  var el = document.getElementById("chips");
-  if (!selected.length){
-    el.className = "chips-empty";
-    el.innerHTML = "No ingredients added yet - search above, or try an example.";
-    return;
-  }
-  el.className = "chips";
-  el.innerHTML = selected.map(function(it, idx){
-    var c = COLOR_VARS[it.color];
-    return '<span class="chip" style="background:'+c.bg+'; color:'+c.text+';">' + dot(it.color) +
-           esc(cap(it.name)) +
-           '<button type="button" data-chip-remove="'+idx+'" title="Remove">&times;</button></span>';
-  }).join("");
-}
-document.getElementById("chips").addEventListener("click", function(e){
-  var btn = e.target.closest("[data-chip-remove]");
-  if (!btn) return;
-  selected.splice(parseInt(btn.getAttribute("data-chip-remove"), 10), 1);
-  openSwapIdx = null;
-  renderChips();
-  if (generated) renderRecipe();
-});
-
-// ---- Swap options for an ingredient ----
-function swapOptions(item){
-  var opts = [];
-  for (var key in DB){
-    if (key === item.name) continue;
-    var d = DB[key];
-    if (d.cat !== item.cat) continue;
-    if (selected.some(function(it){ return it.name === key; })) continue; // don't offer a duplicate
-    if (d.color === "red") continue;              // never suggest a red downgrade
-    opts.push({name:key, color:d.color});
-  }
-  if (item.color === "red"){
-    // healthier upgrades first (green, then yellow)
-    opts.sort(function(a,b){ return COLOR_ORDER[a.color]-COLOR_ORDER[b.color] || a.name.localeCompare(b.name); });
-  } else {
-    // similar options, no push toward green - just alphabetical
-    opts.sort(function(a,b){ return a.name.localeCompare(b.name); });
-  }
-  return opts.slice(0, 8);
-}
-
-// ---- Recipe building ----
-function methodStep(item){
-  var n = item.name;
-  switch (item.method){
-    case "sear":  return "Heat a little oil in a skillet over medium-high heat and sear the " + n + " 4-6 minutes per side until browned and cooked through.";
-    case "saute": return "Saute the " + n + " in a hot pan with a little oil for 3-5 minutes until cooked through and tender.";
-    case "bake":  return "Bake the " + n + " at 400F (200C) for 18-25 minutes until cooked through.";
-    case "roast": return "Toss the " + n + " with a little oil, salt, and pepper and roast at 425F (220C) for 25-30 minutes, flipping halfway.";
-    case "boil":  return "Simmer the " + n + " in water or broth until tender, about 15-20 minutes.";
-    case "as-is": return "Toast or warm the " + n + " just before serving.";
-    case "raw":
-    default:      return "Add the " + n + " raw, either mixed in or served on the side.";
-  }
-}
-
-function groupItems(items){
-  var groups = {protein:[], veg:[], carb:[], fat:[], dairy:[], combo:[]};
-  items.forEach(function(m){ groups[m.cat].push(m); });
-  return groups;
-}
-
-function buildSteps(items){
-  var groups = groupItems(items);
+function buildSteps(groups){
   var steps = [];
-  var proteins = groups.protein, vegs = groups.veg, combos = groups.combo;
+  var proteins = groups.protein, vegs = groups.veg, carbs = groups.carb, fats = groups.fat.concat(groups.dairy), combos = groups.combo;
+  var primaryFat = fats[0];
+  var fatName = primaryFat ? primaryFat.name : "olive oil";
 
   var prepBits = [];
   if (proteins.length) prepBits.push("pat the " + proteins.map(function(p){return p.name;}).join(" and ") + " dry and season with salt and pepper");
   if (vegs.length) prepBits.push("wash and chop the " + vegs.map(function(v){return v.name;}).join(", "));
   if (prepBits.length) steps.push("Prep: " + cap(prepBits.join("; ")) + ".");
 
-  // cook in a sensible order: carbs, proteins, veg, then fats/dairy finishers
-  groups.carb.forEach(function(it){ steps.push(methodStep(it)); });
-  groups.protein.forEach(function(it){ steps.push(methodStep(it)); });
-  groups.veg.forEach(function(it){ steps.push(methodStep(it)); });
-  groups.fat.concat(groups.dairy).forEach(function(it){
-    if (it.method === "raw") steps.push("Finish with the " + it.name + " for richness and flavor.");
-    else steps.push(methodStep(it));
+  carbs.forEach(function(c){
+    if (c.method === "boil") steps.push("Cook the " + c.name + " in water or broth per package directions, about 15-20 minutes, until tender.");
+    else if (c.method === "roast") steps.push("Toss the " + c.name + " with a little " + fatName + ", salt, and pepper. Roast at 425F (220C) for 25-30 minutes, flipping halfway.");
+    else if (c.method === "air fry") steps.push("Toss the " + c.name + " with a little " + fatName + " and air fry at 200C (400F) for 15-20 minutes, shaking halfway, until golden and tender.");
+    else if (c.method === "grill") steps.push("Grill thick slices of the " + c.name + " until tender and lightly charred.");
+    else if (c.method === "steam") steps.push("Steam the " + c.name + " until fork-tender, about 15-20 minutes.");
+    else if (c.method === "as-is") steps.push("Toast or warm the " + c.name + " just before serving.");
+    else steps.push("Prepare the " + c.name + " and set aside.");
   });
+
+  proteins.forEach(function(p){
+    if (p.method === "sear") steps.push("Heat " + fatName + " in a skillet over medium-high heat. Sear the " + p.name + " 4-6 minutes per side until browned and cooked through.");
+    else if (p.method === "saute") steps.push("Heat " + fatName + " in a pan over medium heat. Saute the " + p.name + " 3-5 minutes, stirring, until cooked through.");
+    else if (p.method === "bake" || p.method === "roast") steps.push("Rub the " + p.name + " with " + fatName + ", season, and roast at 400F (200C) for 18-25 minutes until cooked through.");
+    else if (p.method === "boil") steps.push("Simmer the " + p.name + " in seasoned water or broth for 5-10 minutes until just cooked through.");
+    else if (p.method === "grill") steps.push("Grill the " + p.name + " over medium-high heat, 4-6 minutes per side, until charred and cooked through.");
+    else if (p.method === "air fry") steps.push("Season the " + p.name + " and air fry at 200C (400F) for 10-15 minutes, flipping halfway, until cooked through.");
+    else if (p.method === "steam") steps.push("Steam the " + p.name + " for 8-12 minutes until just cooked through.");
+    else steps.push("Add the " + p.name + " as-is, no cooking needed.");
+  });
+
+  var roastVeg = vegs.filter(function(v){ return v.method === "roast"; });
+  var sauteVeg = vegs.filter(function(v){ return v.method === "saute"; });
+  var rawVeg = vegs.filter(function(v){ return v.method === "raw"; });
+  var grillVeg = vegs.filter(function(v){ return v.method === "grill"; });
+  var airVeg = vegs.filter(function(v){ return v.method === "air fry"; });
+  var steamVeg = vegs.filter(function(v){ return v.method === "steam"; });
+  var boilVeg = vegs.filter(function(v){ return v.method === "boil"; });
+  if (roastVeg.length) steps.push("Roast the " + roastVeg.map(function(v){return v.name;}).join(", ") + " alongside the carb, or on a separate tray, until tender and lightly charred.");
+  if (sauteVeg.length) steps.push("Saute the " + sauteVeg.map(function(v){return v.name;}).join(", ") + " in the same pan as the protein for 3-4 minutes until just softened.");
+  if (grillVeg.length) steps.push("Grill the " + grillVeg.map(function(v){return v.name;}).join(", ") + " until lightly charred and tender.");
+  if (airVeg.length) steps.push("Air fry the " + airVeg.map(function(v){return v.name;}).join(", ") + " at 200C (400F) for 8-12 minutes, shaking the basket halfway.");
+  if (steamVeg.length) steps.push("Steam the " + steamVeg.map(function(v){return v.name;}).join(", ") + " for 3-5 minutes until crisp-tender.");
+  if (boilVeg.length) steps.push("Blanch the " + boilVeg.map(function(v){return v.name;}).join(", ") + " in boiling water for 2-3 minutes, then drain.");
+  if (rawVeg.length) steps.push("Add the " + rawVeg.map(function(v){return v.name;}).join(", ") + " raw, either mixed in or served on the side.");
+
+  var extraFats = fats.slice(1);
+  if (extraFats.length) steps.push("Finish with " + extraFats.map(function(f){return f.name;}).join(" and ") + " for extra richness.");
 
   if (combos.length) steps.push("If using " + combos.map(function(c){return c.name;}).join(", ") + ", keep it a small side or garnish rather than a main component - it sits in the red zone of the framework.");
 
@@ -454,8 +878,7 @@ function buildSteps(items){
   return steps;
 }
 
-function buildTitle(items){
-  var groups = groupItems(items);
+function buildTitle(groups){
   var proteins = groups.protein, vegs = groups.veg, carbs = groups.carb;
   var parts = [];
   if (proteins.length){
@@ -470,52 +893,19 @@ function buildTitle(items){
   return parts[0] + (rest.length ? " with " + rest.join(" and ") : "");
 }
 
-function methodSelectHtml(item, idx){
-  var methods = METHODS_BY_CAT[item.cat] || ["raw"];
-  if (methods.length <= 1) return '<span style="font-size:12px; color:var(--text-muted);">' + esc(METHOD_LABEL[item.method] || item.method) + '</span>';
-  var html = '<select data-method-idx="'+idx+'" title="Cooking method">';
-  methods.forEach(function(m){
-    html += '<option value="'+m+'"' + (m === item.method ? ' selected' : '') + '>' + esc(METHOD_LABEL[m] || m) + '</option>';
-  });
-  html += '</select>';
-  return html;
-}
-
-function ingredientRowHtml(item, idx){
-  var html = '<div class="ing-row">';
-  html += '<span class="ing-name">' + dot(item.color) + esc(cap(item.name)) + '</span>';
-  html += '<span class="ing-controls">';
-  html += methodSelectHtml(item, idx);
-  html += '<button type="button" class="mini-btn" data-swap-toggle="'+idx+'">Swap</button>';
-  html += '</span>';
-
-  if (openSwapIdx === idx){
-    var opts = swapOptions(item);
-    html += '<div class="swap-list">';
-    html += '<p class="swap-head">' + (item.color === "red" ? "Healthier swaps (yellow / green):" : "Similar swaps:") + '</p>';
-    if (!opts.length){
-      html += '<span style="font-size:12px; color:var(--text-muted);">No other options in this category.</span>';
-    } else {
-      opts.forEach(function(o){
-        html += '<span class="swap-opt" data-swap-do="'+idx+'" data-swap-name="'+esc(o.name)+'">' + dot(o.color) + esc(cap(o.name)) + '</span>';
-      });
-    }
-    html += '</div>';
-  }
-  html += '</div>';
-  return html;
-}
-
-function renderRecipe(){
+function render(matched, unmatched){
   var out = document.getElementById("output");
-  if (!selected.length){
-    out.innerHTML = '<p style="color:var(--text-secondary); font-size:14px;">No ingredients yet. Add a few above, then generate your Master Meal.</p>';
+  if (!matched.length){
+    out.innerHTML = '<p style="color:var(--text-secondary); font-size:14px;">No ingredients recognized yet. Try common whole foods like chicken breast, broccoli, brown rice, or olive oil.</p>';
     return;
   }
 
+  var groups = {protein:[], veg:[], carb:[], fat:[], dairy:[], combo:[]};
+  matched.forEach(function(m){ groups[m.cat].push(m); });
+
   var counts = {green:0, yellow:0, red:0};
-  selected.forEach(function(m){ counts[m.color]++; });
-  var total = selected.length;
+  matched.forEach(function(m){ counts[m.color]++; });
+  var total = matched.length;
   var pct = {
     green: Math.round(counts.green / total * 100),
     yellow: Math.round(counts.yellow / total * 100),
@@ -523,16 +913,16 @@ function renderRecipe(){
   };
 
   var tip;
-  if (pct.red > 30) tip = "This meal leans into the red zone. Click a red ingredient above to swap it for a whole-food alternative and cut the blood sugar spike.";
+  if (pct.red > 30) tip = "This meal leans into the red zone. Consider swapping a processed item for a whole-food alternative to cut the blood sugar spike.";
   else if (pct.green >= 50) tip = "Solid foundation - this meal is built mostly around green vegetables and lean protein, per the framework.";
   else if (pct.yellow > 60) tip = "Mostly yellow-zone foods here - nutritious, but calorie dense, so keep an eye on portion size.";
   else tip = "Balanced mix. Adding another green vegetable would boost fiber and fullness further.";
 
   var yellowCarbItems = [], yellowFatItems = [];
-  selected.forEach(function(m){
-    var d = yellowDominance(m);
-    if (d === "carb") yellowCarbItems.push(m.name);
-    else if (d === "fat") yellowFatItems.push(m.name);
+  matched.forEach(function(m){
+    if (m.color !== "yellow") return;
+    if (m.macro.indexOf("fat") !== -1) yellowFatItems.push(m.name);
+    else if (m.macro.indexOf("carb") !== -1) yellowCarbItems.push(m.name);
   });
   var yellowCarb = yellowCarbItems.length, yellowFat = yellowFatItems.length;
   var yellowTotal = yellowCarb + yellowFat;
@@ -549,17 +939,46 @@ function renderRecipe(){
     }
   }
 
-  var title = buildTitle(selected);
-  var steps = buildSteps(selected);
+  var title = buildTitle(groups);
+  var steps = buildSteps(groups);
 
   var html = '';
   html += '<div class="card">';
   html += '<h3>' + esc(title) + '</h3>';
 
-  html += '<p class="label-sm">Ingredients (click Swap to change, or pick a cooking method)</p>';
-  selected.forEach(function(it, idx){ html += ingredientRowHtml(it, idx); });
+  html += '<p class="label-sm">Ingredients used</p>';
+  html += '<div style="margin-bottom:16px;">' + matched.map(badge).join('') + '</div>';
 
-  html += '<p class="label-sm" style="margin-top:16px;">Steps</p>';
+  if (openSwap){
+    var cur = null;
+    for (var ci = 0; ci < matched.length; ci++){
+      if (matched[ci].name === openSwap){ cur = matched[ci]; break; }
+    }
+    if (cur){
+      var opts = swapOptions(cur);
+      html += '<div class="swap-panel">';
+      html += '<p class="label-sm" style="margin:0 0 8px;">Swap ' + esc(cap(cur.name)) + ' for:</p>';
+      if (opts.length){
+        html += opts.map(function(k){
+          var oc = COLOR_VARS[DB[k].color];
+          return '<button type="button" data-from="' + esc(cur.name) + '" data-swapto="' + esc(k) + '"><span class="dot" style="background:' + oc.fill + ';"></span>' + esc(cap(k)) + '</button>';
+        }).join('');
+      } else {
+        html += '<p style="font-size:13px; color:var(--text-muted); margin:0;">No alternatives found in the list.</p>';
+      }
+      var mopts = methodChoices(cur);
+      if (mopts.length){
+        html += '<p class="label-sm" style="margin:10px 0 8px;">Or cook it differently:</p>';
+        html += mopts.map(function(mm){
+          var active = (mm === cur.method);
+          return '<button type="button" data-target="' + esc(cur.name) + '" data-method="' + esc(mm) + '"' + (active ? ' style="border-color: currentColor;"' : '') + '>' + (active ? '&#10003; ' : '') + METHOD_LABEL[mm] + '</button>';
+        }).join('');
+      }
+      html += '</div>';
+    }
+  }
+
+  html += '<p class="label-sm">Steps</p>';
   html += '<ol>';
   steps.forEach(function(s){ html += '<li>' + esc(s) + '</li>'; });
   html += '</ol>';
@@ -588,65 +1007,205 @@ function renderRecipe(){
     html += '</div>';
   }
 
+  if (unmatched.length){
+    var mailHref = "mailto:royceadrian.tee@gmail.com?subject=" + encodeURIComponent("Meal plan builder - ingredient suggestion") + "&body=" + encodeURIComponent("Please add these ingredients to the database:\n\n" + unmatched.join("\n") + "\n\nWhat they are (short description):\n");
+    html += '<p style="font-size:12px; color:var(--text-muted); margin:12px 0 0;">Not in the database yet: ' + esc(unmatched.join(", ")) + '. Double-check it with Google or an AI assistant to judge its color for now, or <a href="' + mailHref + '" style="color:var(--text-secondary);">submit it for review</a> so it can be added to the list.</p>';
+  }
+
   html += '</div>';
   out.innerHTML = html;
 }
 
-// ---- Recipe interactions (event delegation) ----
-var outputEl = document.getElementById("output");
-outputEl.addEventListener("click", function(e){
-  var toggle = e.target.closest("[data-swap-toggle]");
-  if (toggle){
-    var i = parseInt(toggle.getAttribute("data-swap-toggle"), 10);
-    openSwapIdx = (openSwapIdx === i) ? null : i;
-    renderRecipe();
-    return;
+var KEYS = Object.keys(DB).sort();
+var selected = [];
+
+var input = document.getElementById("ingredients-input");
+var sugBox = document.getElementById("suggestions");
+var chipsBox = document.getElementById("chips");
+var output = document.getElementById("output");
+var openSwap = null;
+var methodOverrides = {};
+
+function methodChoices(item){
+  var base = DB[item.name] ? DB[item.name].method : item.method;
+  if (item.cat === "protein"){
+    if (["sear", "saute", "bake", "roast", "boil", "grill", "air fry", "steam"].indexOf(base) !== -1)
+      return ["sear", "saute", "bake", "grill", "air fry", "steam", "boil"];
+    return [];
   }
-  var doSwap = e.target.closest("[data-swap-do]");
-  if (doSwap){
-    var idx = parseInt(doSwap.getAttribute("data-swap-do"), 10);
-    var newName = doSwap.getAttribute("data-swap-name");
-    if (DB[newName]){
-      selected[idx] = makeItem(newName);
-      openSwapIdx = null;
-      renderChips();
-      renderRecipe();
+  if (item.cat === "veg") return ["saute", "roast", "grill", "air fry", "steam", "raw"];
+  if (item.cat === "carb" && base === "roast") return ["roast", "boil", "air fry", "grill", "steam"];
+  return [];
+}
+
+function renderChips(){
+  var html = "";
+  selected.forEach(function(raw, i){
+    var m = matchIngredient(raw);
+    var style, label;
+    if (m){
+      var c = COLOR_VARS[m.color];
+      style = "background:" + c.bg + "; color:" + c.text + ";";
+      label = cap(m.name);
+    } else {
+      style = "background:var(--surface-1); color:var(--text-secondary); border:0.5px dashed var(--border);";
+      label = raw;
     }
-    return;
-  }
-});
-outputEl.addEventListener("change", function(e){
-  var sel = e.target.closest("[data-method-idx]");
-  if (!sel) return;
-  var idx = parseInt(sel.getAttribute("data-method-idx"), 10);
-  selected[idx].method = sel.value;
-  renderRecipe();
+    html += '<span class="chip" style="' + style + '">' + esc(label) + '<button type="button" aria-label="Remove" data-i="' + i + '">&times;</button></span>';
+  });
+  chipsBox.innerHTML = html;
+}
+
+chipsBox.addEventListener("click", function(e){
+  var b = e.target.closest("button");
+  if (!b) return;
+  selected.splice(Number(b.getAttribute("data-i")), 1);
+  renderChips();
+  if (output.innerHTML) run();
 });
 
-// ---- Buttons ----
-document.getElementById("generate-btn").addEventListener("click", function(){
-  generated = true;
-  openSwapIdx = null;
-  renderRecipe();
-});
-document.getElementById("example-btn").addEventListener("click", function(){
-  selected = ["chicken breast", "broccoli", "brown rice", "olive oil", "garlic"].map(makeItem);
-  generated = true;
-  openSwapIdx = null;
+function addIngredient(raw, skipRun){
+  raw = String(raw).trim();
+  if (!raw) return;
+  var m = matchIngredient(raw);
+  var keyName = m ? m.name : raw.toLowerCase();
+  var exists = selected.some(function(s){
+    var sm = matchIngredient(s);
+    return (sm ? sm.name : s.toLowerCase()) === keyName;
+  });
+  if (!exists) selected.push(raw);
   renderChips();
-  renderRecipe();
+  input.value = "";
+  sugBox.hidden = true;
+  if (!skipRun && output.innerHTML) run();
+}
+
+function updateSuggestions(){
+  var q = input.value.toLowerCase().trim();
+  if (q.length < 2){ sugBox.hidden = true; return; }
+  var starts = [], contains = [];
+  for (var i = 0; i < KEYS.length; i++){
+    var k = KEYS[i];
+    if (k.indexOf(q) === 0) starts.push(k);
+    else if (k.indexOf(q) !== -1) contains.push(k);
+  }
+  var list = starts.concat(contains).slice(0, 8);
+  if (!list.length){
+    sugBox.innerHTML = '<div style="padding:8px 12px; font-size:13px; color:var(--text-muted);">Not in the list - press Enter to add it anyway</div>';
+    sugBox.hidden = false;
+    return;
+  }
+  sugBox.innerHTML = list.map(function(k){
+    var c = COLOR_VARS[DB[k].color];
+    return '<button type="button" data-k="' + esc(k) + '"><span class="dot" style="background:' + c.fill + ';"></span>' + esc(cap(k)) + '</button>';
+  }).join("");
+  sugBox.hidden = false;
+}
+
+sugBox.addEventListener("mousedown", function(e){
+  var b = e.target.closest("button");
+  if (!b) return;
+  e.preventDefault();
+  addIngredient(b.getAttribute("data-k"));
+});
+
+input.addEventListener("input", updateSuggestions);
+input.addEventListener("keydown", function(e){
+  if (e.key === "Enter"){
+    e.preventDefault();
+    var parts = input.value.split(",");
+    parts.forEach(function(p){ addIngredient(p, true); });
+    if (output.innerHTML) run();
+  }
+});
+input.addEventListener("blur", function(){
+  setTimeout(function(){ sugBox.hidden = true; }, 150);
+});
+
+function run(){
+  if (input.value.trim()){
+    var parts = input.value.split(",");
+    parts.forEach(function(p){ addIngredient(p, true); });
+  }
+  var matched = [], unmatched = [];
+  selected.forEach(function(p){
+    var m = matchIngredient(p);
+    if (m){
+      if (methodOverrides[m.name]) m.method = methodOverrides[m.name];
+      matched.push(m);
+    } else unmatched.push(p.trim());
+  });
+  render(matched, unmatched);
+}
+
+document.getElementById("generate-btn").addEventListener("click", run);
+document.getElementById("example-btn").addEventListener("click", function(){
+  selected = ["bangus", "kangkong", "brown rice", "coconut oil", "bawang", "kamatis"];
+  renderChips();
+  run();
 });
 document.getElementById("clear-btn").addEventListener("click", function(){
   selected = [];
-  generated = false;
-  openSwapIdx = null;
+  openSwap = null;
+  methodOverrides = {};
   renderChips();
-  document.getElementById("output").innerHTML = "";
-  searchEl.value = "";
-  suggEl.style.display = "none";
+  output.innerHTML = "";
 });
 
-renderChips();
+function swapOptions(item){
+  var pool;
+  if (item.color === "red"){
+    if (item.cat === "fat" || item.cat === "carb"){
+      pool = KEYS.filter(function(k){
+        var d = DB[k];
+        return d.cat === item.cat && d.color !== "red" && k !== item.name;
+      });
+    } else {
+      pool = ["berries", "saging", "mangga", "apple", "greek yogurt", "dark chocolate", "almonds", "kamote", "puto", "suman"].filter(function(k){
+        return DB[k] && k !== item.name;
+      });
+    }
+    pool.sort(function(a, b){
+      var ra = DB[a].color === "green" ? 0 : 1;
+      var rb = DB[b].color === "green" ? 0 : 1;
+      return ra - rb || a.localeCompare(b);
+    });
+  } else {
+    pool = KEYS.filter(function(k){
+      var d = DB[k];
+      return d.cat === item.cat && d.color !== "red" && k !== item.name;
+    });
+    for (var i = pool.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+    }
+  }
+  return pool.slice(0, 8);
+}
+
+output.addEventListener("click", function(e){
+  var b = e.target.closest("[data-swapto], [data-method], [data-swap]");
+  if (!b) return;
+  if (b.hasAttribute("data-swapto")){
+    var from = b.getAttribute("data-from");
+    var to = b.getAttribute("data-swapto");
+    for (var i = 0; i < selected.length; i++){
+      var sm = matchIngredient(selected[i]);
+      if (sm && sm.name === from){ selected[i] = to; break; }
+    }
+    delete methodOverrides[from];
+    openSwap = null;
+    renderChips();
+    run();
+  } else if (b.hasAttribute("data-method")){
+    methodOverrides[b.getAttribute("data-target")] = b.getAttribute("data-method");
+    run();
+  } else {
+    var name = b.getAttribute("data-swap");
+    openSwap = (openSwap === name) ? null : name;
+    run();
+  }
+});
 
 })();
 </script>
