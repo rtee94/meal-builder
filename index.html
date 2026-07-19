@@ -61,6 +61,11 @@
     border-radius: var(--radius); background: var(--surface-2); color: var(--text-primary);
     cursor: pointer;
   }
+  select {
+    font-size: 14px; padding: 8px 10px; border: 0.5px solid var(--border);
+    border-radius: var(--radius); background: var(--surface-2); color: var(--text-primary);
+    font-family: inherit; flex: 1; min-width: 160px;
+  }
   button:hover { background: var(--surface-1); }
   button:active { transform: scale(0.98); }
   .row { display: flex; gap: 8px; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
@@ -83,6 +88,13 @@
 
 <label for="ingredients-input">Ingredients you have (comma separated)</label>
 <textarea id="ingredients-input" rows="2" placeholder="chicken breast, broccoli, brown rice, olive oil, garlic"></textarea>
+
+<div class="row">
+  <select id="ingredient-select">
+    <option value="">Pick an ingredient to add...</option>
+  </select>
+  <button id="add-ingredient-btn" type="button">Add</button>
+</div>
 
 <div class="row">
   <button id="generate-btn">Generate recipe</button>
@@ -423,6 +435,23 @@ document.getElementById("generate-btn").addEventListener("click", run);
 document.getElementById("example-btn").addEventListener("click", function(){
   document.getElementById("ingredients-input").value = "chicken breast, broccoli, brown rice, olive oil, garlic";
   run();
+});
+
+var ingredientSelect = document.getElementById("ingredient-select");
+Object.keys(DB).sort().forEach(function(key){
+  var opt = document.createElement("option");
+  opt.value = key;
+  opt.textContent = cap(key);
+  ingredientSelect.appendChild(opt);
+});
+
+document.getElementById("add-ingredient-btn").addEventListener("click", function(){
+  var val = ingredientSelect.value;
+  if (!val) return;
+  var ta = document.getElementById("ingredients-input");
+  var current = ta.value.trim();
+  ta.value = current ? current + ", " + cap(val) : cap(val);
+  ingredientSelect.value = "";
 });
 
 })();
